@@ -1,28 +1,12 @@
-html {
-    font-family: 'Montserrat', sans-serif;
-}
-
 body {
-    background-color: #303030;
-    color: antiquewhite;
+  font-family: 'Montserrat', sans-serif;
+  background-color: #303030;
+  color: antiquewhite;
 }
 
-  .outer {
-    display: table;
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-  }
-  
-  .middle {
-    display: table-cell;
-    vertical-align: middle;
-  }
-  
-  .inner {
-    margin-left: auto;
-    margin-right: auto;
-    width: 100px;
-  }
+.container {
+  display: grid;
+  place-content: center;
+  width: 100vw;
+  height: 100vh;
+}
