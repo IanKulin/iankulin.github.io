@@ -19,6 +19,7 @@ function addNewItem() {
         li.appendChild(document.createTextNode(txtItem.value));
         ulItems.appendChild(li);
         li.onclick = listItemClick
+        li.oncontextmenu = listItemRightClick;
         txtItem.value = ""
     }
 }
@@ -29,6 +30,13 @@ function listItemClick(event) {
 }
 
 
+function listItemRightClick(event) {
+    event.preventDefault();
+    event.target.remove();
+    
+}
+
+
 txtItem.addEventListener("keydown", respondToKeyPress)
 btnItem.addEventListener("click", addNewItem)
 
@@ -36,6 +44,7 @@ var links = document.getElementsByTagName('li');
 for (var i = 0; i < links.length; i++) {
     var link = links[i];
     link.onclick = listItemClick;
+    link.oncontextmenu = listItemRightClick;
 }
 
 
