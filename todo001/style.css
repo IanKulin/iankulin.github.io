@@ -1,4 +1,18 @@
 
+body {
+    background-color: white;
+}
+
+li button {
+    background-color: white;
+    border: none;
+    padding: 0, 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 0.6rem;
+}
+
 .completed {
     text-decoration-line: line-through;
     text-decoration-color: red;

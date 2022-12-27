@@ -15,25 +15,32 @@ function respondToKeyPress(event) {
 
 function addNewItem() {
     if (txtItem.value.length > 0) {
+        
+        var btnDel = document.createElement("button")
+        btnDel.innerText = "❌"
+        btnDel.type="button"
+        btnDel.onclick = deleteItem
+
         var li = document.createElement("li");
         li.appendChild(document.createTextNode(txtItem.value));
-        ulItems.appendChild(li);
         li.onclick = listItemClick
-        li.oncontextmenu = listItemRightClick;
+        li.appendChild(btnDel)
+        ulItems.appendChild(li);
+
         txtItem.value = ""
     }
 }
 
 
 function listItemClick(event) {
-    event.target.classList.toggle("completed") 
+    if (event.target.localName === 'li') {
+        event.target.classList.toggle("completed") 
+    }
 }
 
 
-function listItemRightClick(event) {
-    event.preventDefault();
-    event.target.remove();
-    
+function deleteItem(event) {
+    event.target.parentNode.remove(); 
 }
 
 
@@ -44,7 +51,7 @@ var links = document.getElementsByTagName('li');
 for (var i = 0; i < links.length; i++) {
     var link = links[i];
     link.onclick = listItemClick;
-    link.oncontextmenu = listItemRightClick;
+    link.lastChild.onclick = deleteItem
 }
 
 
