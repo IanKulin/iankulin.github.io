@@ -6,7 +6,7 @@ var btnItem = document.getElementById("btnAddItem")
 var ulItems = document.getElementById("ulItems")
 
 
-function respondToKeyPress(event) {
+function onKeyPress(event) {
     if (event.code === "Enter") {
         addNewItem()  
     }
@@ -16,15 +16,23 @@ function respondToKeyPress(event) {
 function addNewItem() {
     if (txtItem.value.length > 0) {
         
-        var btnDel = document.createElement("button")
-        btnDel.innerText = "❌"
-        btnDel.type="button"
-        btnDel.onclick = deleteItem
+        var btnCheck = document.createElement("button")
+        btnCheck.innerText = "✔️"
+        btnCheck.type="button"
+        btnCheck.classList.add("btnCheck")
+        btnCheck.onclick = onBtnCheck
+
+        var btnDelete = document.createElement("button")
+        btnDelete.innerText = "❌"
+        btnDelete.type="button"
+        btnDelete.classList.add("btnDelete")
+        btnDelete.onclick = onBtnDelete
 
         var li = document.createElement("li");
         li.appendChild(document.createTextNode(txtItem.value));
-        li.onclick = listItemClick
-        li.appendChild(btnDel)
+        li.onclick = onListItemClick
+        li.appendChild(btnCheck)
+        li.appendChild(btnDelete)
         ulItems.appendChild(li);
 
         txtItem.value = ""
@@ -32,26 +40,31 @@ function addNewItem() {
 }
 
 
-function listItemClick(event) {
-    if (event.target.localName === 'li') {
+function onListItemClick(event) {
+    if (event.target.tagName === "LI") {
         event.target.classList.toggle("completed") 
     }
 }
 
-
-function deleteItem(event) {
+function onBtnDelete(event) {
     event.target.parentNode.remove(); 
 }
 
+function onBtnCheck(event) {
+    event.target.parentNode.classList.toggle("completed") 
+}
 
-txtItem.addEventListener("keydown", respondToKeyPress)
+
+txtItem.addEventListener("keydown", onKeyPress)
 btnItem.addEventListener("click", addNewItem)
 
 var links = document.getElementsByTagName('li');
 for (var i = 0; i < links.length; i++) {
     var link = links[i];
-    link.onclick = listItemClick;
-    link.lastChild.onclick = deleteItem
+    link.onclick = onListItemClick;
+    console.assert(link.childNodes.length === 3)
+    link.childNodes.item(1).onclick = onBtnCheck
+    link.childNodes.item(2).onclick = onBtnDelete
 }
 
 
