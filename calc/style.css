@@ -1,0 +1,62 @@
+body {
+    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: black;
+    color: white;
+}
+
+main {
+    width: 100%;
+    max-width: 500px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+    /* justify-items: stretch; */
+    /* align-items: inital; */
+}
+
+button {
+    padding: 0;
+    cursor: pointer;
+    text-align: center;
+    vertical-align: middle;
+    border: none;
+    border-radius: 50%;
+    width: 20vh;
+    height: 20vh;
+    max-height: 20vw;
+    max-width: 20vw;
+    font-size: 6vh;
+    touch-action: manipulation;
+}
+
+.operator {
+    background-color: rgb(240, 154, 57);
+    color: white;
+}
+
+.special,
+.clear,
+.backspace {
+    background-color: rgb(165, 165, 165);
+    color: black;
+}
+
+.number {
+    background-color: rgb(51, 51, 51);
+    color: white;
+}
+
+.output {
+    height: 1rem;
+    text-align: right;
+    padding-bottom: 15px;
+}
+
+.previous {
+    text-align: right;
+}
+
+h1 {
+    text-align: center;
+}
