@@ -25,7 +25,8 @@ function btnEqualsClick() {
 
 function btnClearClick() {
     inputText = "";
-    txtOutput.innerHTML = inputText;
+    txtOutput.innerHTML = "";
+    txtPrevious.innerHTML = "";
 }
 
 
