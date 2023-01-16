@@ -2,7 +2,7 @@ const lblLocation = document.querySelector("#lblLocation");
 
 function fetchISSLocation() {
     try {
-        fetch("http://api.open-notify.org/iss-now.json")
+        fetch("https://api.wheretheiss.at/v1/satellites/25544")
             .then(response => {
                 return response.json();
             })
@@ -16,9 +16,8 @@ function fetchISSLocation() {
 
 
 function updateLocation(location) {
-    const position = location.iss_position;
-    if (location.message === "success") {
-        lblLocation.innerHTML = `lat: ${position.latitude} long: ${position.longitude}`;
+    if (location.name === "iss") {
+        lblLocation.innerHTML = `lat: ${location.latitude} long: ${location.longitude}`;
     } else {
         lblLocation.innerHTML = "not found";
     };
