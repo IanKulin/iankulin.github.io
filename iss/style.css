@@ -18,6 +18,8 @@ img {
 
 main {
     font-size: 14px;
+    display: grid;
+    justify-content: center;
 }
 
 
