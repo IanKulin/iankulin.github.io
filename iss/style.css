@@ -1,0 +1,32 @@
+body {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background-color: rgb(29, 30, 30);
+    color: antiquewhite;
+}
+
+nav {
+    display: grid;
+    justify-content: center;
+}
+
+img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    /* remove extra space below image */
+}
+
+main {
+    font-size: 14px;
+}
+
+
+a:visited,
+a:link,
+a:active {
+    color: green;
+}
+
+a:hover {
+    color: hotpink;
+}
