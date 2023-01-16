@@ -2,7 +2,7 @@ const lblLocation = document.querySelector("#lblLocation");
 
 function fetchISSLocation() {
     try {
-        fetch("https://api.open-notify.org/iss-now.json")
+        fetch("http://api.open-notify.org/iss-now.json")
             .then(response => {
                 return response.json();
             })
