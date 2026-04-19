@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crypto Utility Tool</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #2196f3;
+      --primary-dark: #1976d2;
+      --bg: #fafafa;
+      --surface: #ffffff;
+      --text: #212121;
+      --subtle: #757575;
+      --border: #e0e0e0;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #121212;
+        --surface: #1e1e1e;
+        --text: #e0e0e0;
+        --subtle: #9e9e9e;
+        --border: #333;
+      }
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Roboto', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 1rem;
+      font-size: 1.25rem;
+      font-weight: 500;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 1rem;
+      display: grid;
+      gap: 1rem;
+    }
+
+    section {
+      background: var(--surface);
+      border-radius: 4px;
+      padding: 1rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+      margin-top: 0;
+      font-weight: 500;
+      font-size: 1.1rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--subtle);
+      margin-top: 0.5rem;
+    }
+
+    input {
+      width: 100%;
+      border: none;
+      border-bottom: 1px solid var(--border);
+      padding: 0.4rem 0;
+      background: transparent;
+      color: inherit;
+      font-size: 1rem;
+      font-family: monospace;
+    }
+
+    input:focus {
+      outline: none;
+      border-bottom: 2px solid var(--primary);
+    }
+
+    button {
+      margin-top: 1rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      border-radius: 2px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+
+    button:hover {
+      background: var(--primary-dark);
+    }
+
+    button.secondary {
+      background: transparent;
+      color: var(--primary);
+      box-shadow: none;
+    }
+
+    .row {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .output {
+      margin-top: 0.75rem;
+      padding: 0.5rem;
+      background: rgba(0,0,0,0.03);
+      font-family: monospace;
+      word-break: break-all;
+      border-radius: 2px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .output {
+        background: rgba(255,255,255,0.05);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>Crypto Utility Tool</header>
+
+  <main>
+
+    <!-- 1. bcrypt hash -->
+    <section>
+      <h2>Password → bcrypt hash</h2>
+      <label>
+        Password
+        <input type="password" id="passwordInput" />
+      </label>
+      <div class="row">
+        <button onclick="hashPassword()">Generate</button>
+        <button class="secondary" onclick="copy('hashOutput')">Copy</button>
+      </div>
+      <div class="output" id="hashOutput"></div>
+    </section>
+
+    <!-- 2. docker-safe bcrypt -->
+    <section>
+      <h2>Docker-safe bcrypt hash ($ escaped)</h2>
+      <label>
+        Password
+        <input type="password" id="dockerPasswordInput" />
+      </label>
+      <div class="row">
+        <button onclick="hashDocker()">Generate</button>
+        <button class="secondary" onclick="copy('dockerOutput')">Copy</button>
+      </div>
+      <div class="output" id="dockerOutput"></div>
+    </section>
+
+    <!-- 3. random key -->
+    <section>
+      <h2>Random Encryption Key (hex)</h2>
+      <label>
+        Bytes (default 32)
+        <input type="number" id="keyBytes" value="32" />
+      </label>
+      <div class="row">
+        <button onclick="generateKey()">Generate</button>
+        <button class="secondary" onclick="copy('keyOutput')">Copy</button>
+      </div>
+      <div class="output" id="keyOutput"></div>
+    </section>
+
+  </main>
+
+  <script src="bcrypt.min.js"></script>
+  <script>
+    function hashPassword() {
+      const pw = document.getElementById('passwordInput').value;
+      if (!pw) return;
+      const salt = dcodeIO.bcrypt.genSaltSync(10);
+      const hash = dcodeIO.bcrypt.hashSync(pw, salt);
+      document.getElementById('hashOutput').textContent = hash;
+    }
+
+    function hashDocker() {
+      const dockerPw = document.getElementById('dockerPasswordInput').value;
+      const basePw = document.getElementById('passwordInput').value;
+      const pw = dockerPw || basePw;
+
+      if (!pw) return;
+
+      const salt = dcodeIO.bcrypt.genSaltSync(10);
+      const hash = dcodeIO.bcrypt.hashSync(pw, salt);
+
+      document.getElementById('hashOutput').textContent = hash;
+      document.getElementById('dockerOutput').textContent = hash.replace(/\$/g, '$$$$');
+    }
+
+    function generateKey(bytes = null) {
+      const size = bytes || parseInt(document.getElementById('keyBytes').value) || 32;
+      const arr = new Uint8Array(size);
+      crypto.getRandomValues(arr);
+      const hex = Array.from(arr).map(b => b.toString(16).padStart(2, '0')).join('');
+      document.getElementById('keyOutput').textContent = hex;
+      return hex;
+    }
+
+    function copy(id) {
+      const text = document.getElementById(id).textContent;
+      navigator.clipboard.writeText(text);
+    }
+  </script>
+</body>
+</html>
